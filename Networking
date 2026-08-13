@@ -1,0 +1,733 @@
+# Advanced Computer Networking — Interview Preparation Structure
+
+Your structure is good, but it has a few numbering issues and some missing **networking-specific sections**. For networking interviews, I recommend this finalized structure:
+
+## 0. Interview Relevance & Question Mapping
+
+* Interview frequency: ⭐⭐⭐⭐⭐
+* Beginner / Intermediate / Advanced
+* Where it appears: OSI, TCP/IP, HTTP, routing, security, distributed systems
+* Typical interview questions
+* Expected depth for:
+
+  * Fresher
+  * SDE-1
+  * SDE-2
+  * Backend Engineer
+
+## 1. Precise Definition
+
+* Exact technical definition
+* Key terminology
+* Protocol / standard involved
+* Layer of OSI/TCP-IP model
+* Scope and responsibilities
+
+## 2. Why Does This Concept Exist?
+
+* Problem it solves
+* Why simpler approaches are insufficient
+* Historical motivation
+* Real-world use cases
+* Design trade-offs
+
+## 3. Internal Working
+
+Explain the complete mechanism:
+
+**Application → Transport → Network → Data Link → Physical**
+
+Cover:
+
+* Packet creation
+* Encapsulation
+* Transmission
+* Routing
+* Decapsulation
+* Response path
+
+## 4. Components / Building Blocks
+
+Identify every important component.
+
+Examples:
+
+* Client
+* Server
+* Router
+* Switch
+* Gateway
+* DNS
+* DHCP
+* NAT
+* Firewall
+* Port
+* Socket
+* Packet
+* Frame
+* MAC address
+* IP address
+
+## 5. Types / Classifications
+
+Explain relevant classifications.
+
+Examples:
+
+* LAN / WAN / MAN
+* TCP / UDP
+* IPv4 / IPv6
+* Unicast / Broadcast / Multicast / Anycast
+* Static / Dynamic routing
+* Connection-oriented / Connectionless
+* Stateful / Stateless
+
+## 6. Relationship With Other CS Concepts
+
+For networking, replace the OOP-specific section with:
+
+* Relationship with **Operating Systems**
+* Relationship with **DBMS**
+* Relationship with **Distributed Systems**
+* Relationship with **System Design**
+* Relationship with **Cloud Computing**
+* Relationship with **Cyber Security**
+* Relationship with **Concurrency**
+* Relationship with **Microservices**
+
+## 7. Diagram / Execution Flow
+
+Always provide a technically accurate flow.
+
+Example:
+
+```text
+Client
+  |
+  | Application Data
+  ↓
+TCP/UDP
+  |
+  | Segment
+  ↓
+IP
+  |
+  | Packet
+  ↓
+Ethernet/Wi-Fi
+  |
+  | Frame
+  ↓
+Router
+  |
+  ↓
+Internet
+  |
+  ↓
+Server
+```
+
+Explain every transition.
+
+## 8. Practical Coding / Command Example
+
+Use practical examples where applicable:
+
+* Java socket programming
+* HTTP requests
+* TCP client/server
+* UDP communication
+* DNS lookup
+* `ping`
+* `traceroute`
+* `nslookup`
+* `netstat`
+* `curl`
+* Wireshark packet analysis
+
+For each code example:
+
+* Explain the important lines
+* Explain what happens internally
+* Explain the network packets involved
+
+## 9. Simple Mental Model
+
+Give a simple analogy **after** the technical explanation.
+
+Example:
+
+> **IP = destination address**
+> **Port = application/service address**
+> **TCP = reliable delivery mechanism**
+> **Router = chooses the next path**
+> **DNS = converts names into IP addresses**
+
+## 10. Interview Questions & Answers
+
+Organize questions by difficulty.
+
+### Basic
+
+* What is a network?
+* What is an IP address?
+* What is a MAC address?
+* What is a port?
+
+### Intermediate
+
+* TCP vs UDP?
+* Hub vs Switch vs Router?
+* HTTP vs HTTPS?
+* IPv4 vs IPv6?
+
+### Advanced
+
+* TCP three-way handshake?
+* TCP congestion control?
+* How does DNS resolution work?
+* How does NAT work?
+* What happens when you enter `google.com` in a browser?
+* How does HTTPS establish a secure connection?
+* How does a router forward packets?
+
+## 11. Why / How / Difference Questions
+
+Focus heavily on these.
+
+### Why
+
+* Why does TCP need a handshake?
+* Why does DNS use UDP?
+* Why does HTTPS use TLS?
+* Why do we need NAT?
+
+### How
+
+* How does TCP guarantee reliability?
+* How does DNS resolve a domain?
+* How does a router select a route?
+* How does TLS establish encryption?
+
+### Difference
+
+* TCP vs UDP
+* HTTP vs HTTPS
+* IPv4 vs IPv6
+* Switch vs Router
+* MAC vs IP
+* Flow control vs Congestion control
+* Connection-oriented vs Connectionless
+
+## 12. Tricky Cases & Edge Cases
+
+Cover interview traps such as:
+
+* TCP packet arrives out of order
+* Duplicate packet
+* Packet loss
+* Network congestion
+* TCP connection timeout
+* Half-open connection
+* DNS cache poisoning
+* IP fragmentation
+* MTU mismatch
+* NAT port exhaustion
+* SYN flood
+* Duplicate IP address
+* ARP spoofing
+* DNS failure
+* Server reachable by IP but not domain name
+
+## 13. Performance & Optimization
+
+This is important for advanced interviews.
+
+* Latency
+* Bandwidth
+* Throughput
+* Jitter
+* Packet loss
+* RTT
+* MTU
+* TCP window size
+* Congestion window
+* Connection pooling
+* Keep-alive
+* HTTP/2
+* HTTP/3
+* QUIC
+* CDN
+* Load balancing
+
+## 14. Security Perspective
+
+Explain security implications:
+
+* TLS/SSL
+* HTTPS
+* Certificates
+* Encryption
+* Authentication
+* Authorization
+* Firewall
+* VPN
+* Proxy
+* NAT
+* DDoS
+* MITM
+* ARP spoofing
+* DNS spoofing
+* SYN flood
+* Packet sniffing
+
+## 15. Real-World System Design Connection
+
+Connect the concept to production systems.
+
+Example:
+
+```text
+User
+ ↓
+DNS
+ ↓
+CDN
+ ↓
+Load Balancer
+ ↓
+API Gateway
+ ↓
+Application Servers
+ ↓
+Database
+ ↓
+Cache
+```
+
+Explain where the networking concept appears at every stage.
+
+## 16. Troubleshooting / Debugging
+
+Very important for interviews and real engineering.
+
+Teach a systematic approach:
+
+```text
+DNS
+ ↓
+IP connectivity
+ ↓
+Routing
+ ↓
+Port
+ ↓
+TCP connection
+ ↓
+TLS
+ ↓
+HTTP
+ ↓
+Application
+```
+
+Useful commands:
+
+```bash
+ping
+traceroute
+nslookup
+dig
+curl
+netstat
+ss
+tcpdump
+```
+
+## 17. Interviewer Follow-Up Chain
+
+Example:
+
+> **Interviewer:** What happens when you enter google.com?
+
+Then progressively:
+
+```text
+DNS
+ ↓
+How does DNS work?
+ ↓
+UDP or TCP?
+ ↓
+Why UDP?
+ ↓
+What if UDP response is too large?
+ ↓
+How does TCP work?
+ ↓
+Three-way handshake?
+ ↓
+How does HTTPS work?
+ ↓
+TLS handshake?
+ ↓
+How does routing happen?
+ ↓
+How does NAT work?
+ ↓
+What happens if a packet is lost?
+```
+
+This section should simulate **real interviewer escalation**.
+
+## 18. Common Candidate Mistakes
+
+Identify:
+
+* Incorrect terminology
+* Confusing packet/frame/segment
+* Confusing MAC and IP
+* Saying TCP is always faster/slower than UDP
+* Saying DNS always uses UDP
+* Confusing bandwidth with speed
+* Confusing flow control with congestion control
+* Memorizing OSI layers without understanding data flow
+* Giving textbook answers without explaining internals
+
+## 19. Final Interview Summary
+
+End every topic with:
+
+### Must Know
+
+5–10 critical points.
+
+### Must Remember
+
+Important facts and numbers.
+
+### Must Be Able to Explain
+
+Internal execution flow.
+
+### Must Be Able to Compare
+
+Relevant alternatives.
+
+### Top 10 Interview Questions
+
+Most likely questions.
+
+### 30-Second Interview Answer
+
+A concise answer suitable for an actual interview.
+
+---
+
+### **Best final template**
+
+For your **Networking interview preparation**, I would use:
+
+**Definition → Why → Internal Working → Components → Types → OSI/TCP-IP Layer → Diagram → Practical Example → Mental Model → Performance → Security → System Design → Troubleshooting → Interview Q&A → Why/How/Difference → Edge Cases → Follow-up Chain → Mistakes → Final Revision**
+
+This is substantially better for **advanced networking interviews** than directly copying an OOP template, because networking requires **protocol behavior, packet flow, layers, performance, security, and troubleshooting**.
+
+
+# 10. Networking Interview Questions & Answers
+
+## 1. What is a Computer Network?
+
+A **computer network** is a collection of interconnected devices that communicate and exchange data using communication protocols.
+
+### Key components
+
+* **End devices:** computers, phones, servers
+* **Network devices:** switches, routers, gateways
+* **Protocols:** TCP, UDP, IP, HTTP, DNS
+* **Transmission medium:** Ethernet, Wi-Fi, fiber
+
+**Interview answer:**
+
+> A computer network enables devices to communicate and share resources using standardized protocols such as TCP/IP.
+
+---
+
+## 2. What is the OSI Model?
+
+The **OSI (Open Systems Interconnection) model** divides network communication into **7 layers**:
+
+| Layer | Name         | Example            |
+| ----- | ------------ | ------------------ |
+| 7     | Application  | HTTP, DNS, SMTP    |
+| 6     | Presentation | TLS, encoding      |
+| 5     | Session      | Session management |
+| 4     | Transport    | TCP, UDP           |
+| 3     | Network      | IP, ICMP           |
+| 2     | Data Link    | Ethernet, ARP      |
+| 1     | Physical     | Cable, radio       |
+
+### Data flow
+
+```text
+Application
+     ↓
+Presentation
+     ↓
+Session
+     ↓
+Transport
+     ↓
+Network
+     ↓
+Data Link
+     ↓
+Physical
+```
+
+**Interview point:**
+OSI is primarily a **conceptual/reference model**. Real Internet implementations are generally described using the **TCP/IP model**.
+
+---
+
+## 3. TCP vs UDP — What is the Difference?
+
+| TCP                               | UDP                                                |
+| --------------------------------- | -------------------------------------------------- |
+| Connection-oriented               | Connectionless                                     |
+| Reliable                          | Best-effort                                        |
+| Ordered delivery                  | No ordering guarantee                              |
+| Retransmission                    | No built-in retransmission                         |
+| Flow control                      | No TCP-style flow control                          |
+| Congestion control                | No TCP-style congestion control                    |
+| Higher overhead                   | Lower overhead                                     |
+| HTTP/1.1, HTTP/2 commonly use TCP | DNS, DHCP, real-time applications commonly use UDP |
+
+### Example
+
+**TCP:** file transfer, web connections
+**UDP:** DNS queries, VoIP, gaming, streaming use cases
+
+**Important:** Don't say "UDP is always faster." Its lower overhead and lack of reliability mechanisms can reduce latency, but actual performance depends on the application and network.
+
+---
+
+## 4. What is an IP Address?
+
+An **IP address** is a logical address used to identify an interface and enable **Layer 3 addressing and routing**.
+
+### IPv4
+
+```text
+192.168.1.10
+```
+
+IPv4 uses **32 bits**.
+
+### IPv6
+
+```text
+2001:db8::1
+```
+
+IPv6 uses **128 bits**.
+
+### Important distinction
+
+```text
+MAC Address → Layer 2
+IP Address  → Layer 3
+Port Number → Layer 4
+```
+
+---
+
+## 5. What is a MAC Address?
+
+A **MAC (Media Access Control) address** is a Layer 2 address associated with a network interface and used for communication within a local link.
+
+Example:
+
+```text
+00:1A:2B:3C:4D:5E
+```
+
+### MAC vs IP
+
+```text
+MAC → local-link delivery
+IP  → logical addressing/routing across networks
+```
+
+For example, when your computer communicates with a remote server, the **IP destination can remain the remote server's IP**, while the Layer-2 destination MAC changes at each routed hop.
+
+---
+
+## 6. What is DNS?
+
+**DNS (Domain Name System)** translates domain names into network information, most commonly IP addresses.
+
+Example:
+
+```text
+www.example.com
+       ↓
+DNS Resolution
+       ↓
+93.184.216.34
+```
+
+### Simplified resolution
+
+```text
+Client
+  ↓
+DNS Resolver
+  ↓
+Root DNS
+  ↓
+TLD DNS (.com)
+  ↓
+Authoritative DNS
+  ↓
+IP Address
+```
+
+DNS commonly uses **UDP port 53**, but DNS can also use TCP and other transports depending on the situation.
+
+---
+
+## 7. What Happens When You Enter `https://example.com`?
+
+This is one of the **highest-value networking interview questions**.
+
+Simplified sequence:
+
+```text
+Browser
+  ↓
+DNS Resolution
+  ↓
+Get Server IP
+  ↓
+TCP Connection
+  ↓
+TLS Handshake
+  ↓
+HTTP Request
+  ↓
+Server
+  ↓
+HTTP Response
+  ↓
+Browser renders response
+```
+
+For HTTP/2 over TCP, TCP establishment occurs before TLS. With HTTP/3, HTTP runs over **QUIC**, which uses UDP as its transport.
+
+### Interview follow-ups
+
+* How does DNS work?
+* How does routing happen?
+* What is the TCP three-way handshake?
+* What happens during TLS?
+* What is an HTTP request?
+* How does the server send the response?
+* Where does caching happen?
+
+---
+
+## 8. What is the TCP Three-Way Handshake?
+
+TCP establishes a connection using:
+
+```text
+Client                    Server
+  |                         |
+  | ---- SYN ------------> |
+  |                         |
+  | <--- SYN + ACK ------- |
+  |                         |
+  | ---- ACK ------------> |
+  |                         |
+  |     Connection Ready    |
+```
+
+### Purpose
+
+It establishes initial sequence-number state and confirms that both endpoints can communicate.
+
+### Steps
+
+**1. SYN**
+Client requests connection establishment.
+
+**2. SYN-ACK**
+Server acknowledges the request and sends its own synchronization information.
+
+**3. ACK**
+Client acknowledges the server.
+
+Then application data can be transmitted.
+
+---
+
+## 9. What is a Router?
+
+A **router** is a Layer 3 networking device that forwards packets between different IP networks based primarily on its **routing table**.
+
+Example:
+
+```text
+Network A
+   |
+   ↓
+Router
+   |
+   ↓
+Network B
+```
+
+When a packet arrives, the router generally:
+
+1. Examines the destination IP.
+2. Performs a routing-table lookup.
+3. Selects the appropriate next hop/interface.
+4. Decrements the IPv4 TTL or IPv6 Hop Limit.
+5. Re-encapsulates the packet into a new Layer-2 frame.
+6. Forwards it.
+
+### Key distinction
+
+**Switch → primarily forwards Ethernet frames using MAC addresses.**
+
+**Router → forwards IP packets using network-layer addressing and routing information.**
+
+---
+
+## 10. What is NAT?
+
+**NAT (Network Address Translation)** modifies IP addressing information as traffic crosses a translation boundary.
+
+A common example is **PAT/NAPT**, where many private hosts share one public IPv4 address using different source ports.
+
+```text
+PC 192.168.1.10:5000
+        ↓
+      NAT
+        ↓
+Public IP:203.0.113.5:40001
+        ↓
+     Internet
+        ↓
+     Server
+```
+
+The NAT device maintains a translation mapping so that returning traffic can be associated with the correct internal connection.
+
+### Why NAT is widely used
+
+* IPv4 address conservation
+* Private addressing
+* Common home/enterprise network architecture
+
+**Important interview point:** NAT is **not the same thing as a firewall**. A NAT device may incorporate firewall functionality, but the concepts are different.
