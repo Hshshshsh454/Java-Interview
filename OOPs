@@ -1,0 +1,1203 @@
+# Java OOPs — Advanced Interview Mastery
+
+**Target:** Java Developer / Backend / Spring Boot / SDE
+**Level:** Advanced → Expert
+**Priority:** 🔴 Must-Know unless marked otherwise
+
+---
+
+## 0. Interview Relevance & Question Mapping
+
+### Interview importance
+
+| Area                                | Priority        |
+| ----------------------------------- | --------------- |
+| Encapsulation                       | 🔴 Must-Know    |
+| Inheritance                         | 🔴 Must-Know    |
+| Polymorphism                        | 🔴 Must-Know    |
+| Abstraction                         | 🔴 Must-Know    |
+| Overloading vs Overriding           | 🔴 Must-Know    |
+| `==` vs `equals()`                  | 🔴 Must-Know    |
+| `equals()` + `hashCode()`           | 🔴 Must-Know    |
+| Abstract class vs Interface         | 🔴 Must-Know    |
+| Composition vs Inheritance          | 🔴 Must-Know    |
+| Dynamic Method Dispatch             | 🔴 Must-Know    |
+| Upcasting / Downcasting             | 🔴 Must-Know    |
+| Immutability                        | 🔴 Must-Know    |
+| SOLID                               | 🔴 Must-Know    |
+| Association/Aggregation/Composition | 🟡 Good-to-Know |
+| Covariant return type               | 🟡 Good-to-Know |
+| Method hiding                       | 🟡 Good-to-Know |
+| Sealed classes                      | 🟡 Good-to-Know |
+| JVM dispatch internals              | 🔵 Advanced     |
+| OOP + Design Patterns               | 🔵 Advanced     |
+
+### Typical interview progression
+
+```text
+"What is OOP?"
+       ↓
+"Explain polymorphism."
+       ↓
+"Overloading vs overriding?"
+       ↓
+"Why can't static methods be overridden?"
+       ↓
+"What happens here?"
+       ↓
+"Explain dynamic dispatch."
+       ↓
+"How does Java resolve the method?"
+       ↓
+"How would you design this production system?"
+       ↓
+"SOLID / Design Patterns"
+```
+
+---
+
+# 1. Definition
+
+### Interview-ready definition
+
+> **Object-Oriented Programming is a programming paradigm that models software as interacting objects that encapsulate state and behavior, using abstraction, encapsulation, inheritance, and polymorphism to achieve modularity, reuse, extensibility, and maintainability.**
+
+But for an **advanced interview**, don't stop at the four pillars.
+
+The real OOP stack is:
+
+```text
+                 OOP
+                  │
+       ┌──────────┼──────────┐
+       ↓          ↓          ↓
+ Encapsulation Abstraction Polymorphism
+       │          │          │
+       └──────────┼──────────┘
+                  ↓
+          Object Relationships
+                  │
+       ┌──────────┼──────────┐
+       ↓          ↓          ↓
+ Inheritance Composition Association
+                  ↓
+              SOLID
+                  ↓
+        Design Patterns
+                  ↓
+       Production Architecture
+```
+
+---
+
+# 2. Why Does OOP Exist?
+
+Suppose you build an e-commerce application.
+
+Without proper abstraction:
+
+```text
+OrderService
+    │
+    ├── knows UPI implementation
+    ├── knows Card implementation
+    ├── knows database details
+    ├── knows email implementation
+    └── knows SMS implementation
+```
+
+This creates **tight coupling**.
+
+Changing one implementation can affect many components.
+
+Good OOP attempts to create:
+
+```text
+Business Logic
+      │
+      ↓
+Abstraction / Interface
+      │
+ ┌────┼─────┐
+ ↓    ↓     ↓
+UPI  Card  Wallet
+```
+
+The business logic depends on the **contract**, not the concrete implementation.
+
+This connects OOP directly to:
+
+> **Loose coupling + Dependency Inversion + Dependency Injection**
+
+---
+
+# 3. Internal Working
+
+This is where advanced interviews begin.
+
+Consider:
+
+```java
+Animal a = new Dog();
+a.sound();
+```
+
+There are two different types involved:
+
+```text
+Reference type                  Object type
+     ↓                              ↓
+   Animal                          Dog
+```
+
+At compile time:
+
+```text
+Animal a
+   ↓
+Compiler checks:
+"Does Animal have sound()?"
+   ↓
+YES
+```
+
+At runtime:
+
+```text
+Actual object = Dog
+       ↓
+Dog overrides sound()
+       ↓
+Dog.sound() executes
+```
+
+This is **dynamic method dispatch**.
+
+### Important distinction
+
+```text
+Compile time
+     ↓
+Reference type determines
+what members are accessible
+
+Runtime
+     ↓
+Actual object determines
+which overridden instance method executes
+```
+
+This distinction is extremely important in Java interviews.
+
+---
+
+# 4. Components / Building Blocks
+
+## 4.1 Class
+
+Blueprint.
+
+```java
+class Account {
+    private double balance;
+
+    void deposit(double amount) {
+        balance += amount;
+    }
+}
+```
+
+---
+
+## 4.2 Object
+
+Runtime instance:
+
+```java
+Account account = new Account();
+```
+
+Conceptually:
+
+```text
+Stack
+ └── account ─────────┐
+                      ↓
+                    Heap
+                      │
+                  Account object
+                  ├── balance
+                  └── methods/class metadata
+```
+
+> Exact JVM memory implementation is more nuanced; don't claim that every method literally lives inside each heap object.
+
+---
+
+# 5. The Four Pillars — Advanced View
+
+## 5.1 Encapsulation
+
+Not simply:
+
+> "Wrapping data and methods together."
+
+Advanced interpretation:
+
+> **Encapsulation controls access to an object's internal state and preserves its invariants by forcing state changes through controlled operations.**
+
+Example:
+
+```java
+class BankAccount {
+
+    private double balance;
+
+    public void withdraw(double amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException();
+        }
+
+        if (amount > balance) {
+            throw new IllegalStateException("Insufficient balance");
+        }
+
+        balance -= amount;
+    }
+}
+```
+
+The important part is not `private`.
+
+The important part is:
+
+```text
+External code
+      ↓
+Controlled API
+      ↓
+Validation
+      ↓
+State change
+```
+
+---
+
+# 6. Inheritance
+
+Inheritance represents an **IS-A** relationship.
+
+```java
+class Animal {
+    void eat() {}
+}
+
+class Dog extends Animal {
+    void bark() {}
+}
+```
+
+```text
+Animal
+   ↑
+   │ extends
+   │
+  Dog
+```
+
+### Advanced question
+
+**Should inheritance always be used for code reuse?**
+
+**No.**
+
+Inheritance creates strong coupling between parent and child.
+
+Often:
+
+```text
+Inheritance
+     ↓
+Strong coupling
+```
+
+while:
+
+```text
+Composition
+     ↓
+Replaceable dependency
+     ↓
+Greater flexibility
+```
+
+Therefore:
+
+> **Prefer composition over inheritance when the relationship is not a genuine substitutable IS-A relationship.**
+
+---
+
+# 7. Polymorphism
+
+## Compile-time polymorphism
+
+Method overloading:
+
+```java
+class Printer {
+
+    void print(int value) {}
+
+    void print(String value) {}
+
+    void print(double value) {}
+}
+```
+
+The compiler selects the method based on the argument list.
+
+```text
+print(10)
+   ↓
+print(int)
+
+print("Java")
+   ↓
+print(String)
+```
+
+---
+
+## Runtime polymorphism
+
+Method overriding:
+
+```java
+class Payment {
+    void pay() {
+        System.out.println("Payment");
+    }
+}
+
+class UPI extends Payment {
+    @Override
+    void pay() {
+        System.out.println("UPI");
+    }
+}
+
+Payment p = new UPI();
+p.pay();
+```
+
+Output:
+
+```text
+UPI
+```
+
+---
+
+# 8. ⭐ Method Overloading vs Overriding
+
+| Feature                       | Overloading         | Overriding      |
+| ----------------------------- | ------------------- | --------------- |
+| Polymorphism                  | Compile-time        | Runtime         |
+| Same method name              | Yes                 | Yes             |
+| Parameters                    | Must differ         | Must be same    |
+| Inheritance required          | No                  | Yes             |
+| Return type alone sufficient? | ❌ No                | ❌ No            |
+| Binding                       | Static/compile-time | Dynamic/runtime |
+| `static`                      | Can overload        | Cannot override |
+| `final`                       | Can overload        | Cannot override |
+| `private`                     | Can overload        | Cannot override |
+
+### Interview trap
+
+This is **not** overloading:
+
+```java
+int add(int a, int b)
+double add(int a, int b)
+```
+
+Return type alone cannot distinguish overloaded methods.
+
+---
+
+# 9. ⭐ Abstract Class vs Interface
+
+| Feature              | Abstract Class           | Interface                   |
+| -------------------- | ------------------------ | --------------------------- |
+| Constructor          | Yes                      | No                          |
+| Instance variables   | Yes                      | No ordinary instance fields |
+| Abstract methods     | Yes                      | Yes                         |
+| Concrete methods     | Yes                      | Yes                         |
+| Multiple inheritance | No                       | Multiple interfaces         |
+| `static` methods     | Yes                      | Yes                         |
+| `default` methods    | No special requirement   | Yes                         |
+| Private methods      | Yes                      | Yes, modern Java            |
+| Main purpose         | Shared abstraction/state | Contract/capability         |
+
+### Design rule
+
+Use an **abstract class** when subclasses share:
+
+* state
+* implementation
+* common lifecycle
+
+Use an **interface** when you primarily need:
+
+* a contract
+* interchangeable implementations
+* multiple capabilities
+
+---
+
+# 10. ⭐ Composition / Aggregation / Association
+
+### Association
+
+General relationship:
+
+```text
+Teacher ───────── Student
+```
+
+---
+
+### Aggregation
+
+Weak ownership:
+
+```text
+Department ◇──── Teacher
+```
+
+Teacher can conceptually exist independently.
+
+---
+
+### Composition
+
+Strong ownership:
+
+```text
+House ◆──── Room
+```
+
+The component is strongly associated with the lifecycle of the containing object.
+
+### Interview shortcut
+
+```text
+Association → knows-a
+Aggregation → has-a, weak ownership
+Composition → has-a, strong ownership
+Inheritance → is-a
+```
+
+---
+
+# 11. ⭐ `==` vs `equals()`
+
+```java
+String a = new String("Java");
+String b = new String("Java");
+```
+
+```java
+a == b
+```
+
+is:
+
+```text
+false
+```
+
+because `==` compares object references.
+
+But:
+
+```java
+a.equals(b)
+```
+
+is:
+
+```text
+true
+```
+
+because `String` implements logical equality based on its contents.
+
+### Key distinction
+
+```text
+==       → identity/reference comparison
+equals() → logical equality
+```
+
+---
+
+# 12. ⭐ `equals()` + `hashCode()`
+
+Critical interview topic.
+
+Contract:
+
+> If two objects are equal according to `equals()`, they must return the same `hashCode()`.
+
+```java
+a.equals(b) == true
+        ↓
+a.hashCode() == b.hashCode()
+```
+
+But:
+
+```text
+same hashCode
+    ⇏
+objects must be equal
+```
+
+Collisions are possible.
+
+### Why does this matter?
+
+Consider:
+
+```java
+HashMap<Key, Value>
+```
+
+and:
+
+```java
+HashSet<Object>
+```
+
+They rely heavily on hashing and equality to locate and compare objects.
+
+---
+
+# 13. ⭐ Immutability
+
+An immutable object cannot change its observable state after construction.
+
+Example:
+
+```java
+public final class User {
+
+    private final String name;
+    private final int age;
+
+    public User(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+}
+```
+
+Characteristics:
+
+```text
+final class
+   ↓
+private final fields
+   ↓
+initialized in constructor
+   ↓
+no setters
+   ↓
+defensive copies for mutable objects
+   ↓
+immutable object
+```
+
+### Why useful?
+
+* Thread safety
+* Predictability
+* Safe sharing
+* HashMap keys
+* Caching
+* Reduced side effects
+
+---
+
+# 14. ⭐ Static / Final / Private — Override Trap
+
+## Static
+
+Cannot be overridden.
+
+It is **method hiding**.
+
+```java
+class Parent {
+    static void show() {
+        System.out.println("Parent");
+    }
+}
+
+class Child extends Parent {
+    static void show() {
+        System.out.println("Child");
+    }
+}
+```
+
+---
+
+## Final
+
+Cannot be overridden.
+
+```java
+final void show() {}
+```
+
+---
+
+## Private
+
+Cannot be overridden because it is not accessible to subclasses as an inherited method.
+
+```text
+static  → hidden
+final   → cannot override
+private → not inherited/overridden
+normal instance method → can be overridden
+```
+
+---
+
+# 15. ⭐ Upcasting / Downcasting
+
+### Upcasting
+
+```java
+Dog dog = new Dog();
+
+Animal animal = dog;
+```
+
+Safe:
+
+```text
+Dog
+ ↓
+Animal
+```
+
+---
+
+### Downcasting
+
+```java
+Animal animal = new Dog();
+
+Dog dog = (Dog) animal;
+```
+
+Explicit.
+
+Potential problem:
+
+```java
+Animal animal = new Cat();
+
+Dog dog = (Dog) animal;
+```
+
+Runtime:
+
+```text
+ClassCastException
+```
+
+Use `instanceof` when appropriate:
+
+```java
+if (animal instanceof Dog dog) {
+    dog.bark();
+}
+```
+
+---
+
+# 16. Covariant Return Type
+
+Parent:
+
+```java
+class Animal {
+    Animal create() {
+        return new Animal();
+    }
+}
+```
+
+Child:
+
+```java
+class Dog extends Animal {
+
+    @Override
+    Dog create() {
+        return new Dog();
+    }
+}
+```
+
+`Dog` is a subtype of `Animal`.
+
+Therefore Java allows the more specific return type.
+
+---
+
+# 17. Constructor Chaining
+
+```java
+class Parent {
+
+    Parent() {
+        System.out.println("Parent");
+    }
+}
+
+class Child extends Parent {
+
+    Child() {
+        super();
+        System.out.println("Child");
+    }
+}
+```
+
+Execution:
+
+```text
+new Child()
+    ↓
+Child constructor
+    ↓
+super()
+    ↓
+Parent constructor
+    ↓
+Child constructor body
+```
+
+### Important
+
+Constructors:
+
+* are not inherited
+* cannot be overridden
+* can be overloaded
+* can call `this()`
+* can call `super()`
+
+---
+
+# 18. JVM / Runtime Connection
+
+For:
+
+```java
+Animal a = new Dog();
+a.sound();
+```
+
+Conceptually:
+
+```text
+                 JVM
+                  │
+                  ↓
+           Reference: Animal
+                  │
+                  ↓
+             Dog object
+                  │
+                  ↓
+        Runtime method dispatch
+                  │
+                  ↓
+             Dog.sound()
+```
+
+At the JVM level, method invocation behavior depends on the bytecode instruction and method type. For ordinary virtual instance methods, JVM resolution/dispatch allows the actual runtime class to determine the overridden implementation.
+
+You should **not** oversimplify this into:
+
+> "Java always uses a vtable exactly like C++."
+
+The JVM specification defines the semantics; the exact dispatch implementation is JVM-dependent and can involve optimizations such as **JIT inlining**.
+
+---
+
+# 19. SOLID Connection
+
+Advanced OOP eventually leads to SOLID.
+
+```text
+S → Single Responsibility
+O → Open/Closed
+L → Liskov Substitution
+I → Interface Segregation
+D → Dependency Inversion
+```
+
+### Most important OOP connection
+
+**Liskov Substitution Principle**
+
+If:
+
+```text
+Dog extends Animal
+```
+
+then code expecting an `Animal` should generally be able to work correctly with a `Dog` without breaking behavioral expectations.
+
+This is much deeper than simply saying:
+
+> "Child can replace parent."
+
+---
+
+# 20. Design Pattern Connection
+
+### Strategy Pattern
+
+Uses polymorphism heavily:
+
+```text
+PaymentStrategy
+      │
+ ┌────┼────┐
+ ↓    ↓    ↓
+UPI  Card Wallet
+```
+
+### Factory
+
+Hides object creation:
+
+```text
+Client
+  ↓
+Factory
+  ↓
+Concrete Object
+```
+
+### Template Method
+
+Uses inheritance + polymorphism.
+
+### Decorator
+
+Uses composition to dynamically add behavior.
+
+### Dependency Injection
+
+Uses abstraction + composition + polymorphism.
+
+---
+
+# 21. Bad Design vs Good Design
+
+### ❌ Bad
+
+```java
+class OrderService {
+
+    void pay(String type) {
+
+        if (type.equals("UPI")) {
+            // UPI logic
+        }
+        else if (type.equals("CARD")) {
+            // Card logic
+        }
+        else if (type.equals("WALLET")) {
+            // Wallet logic
+        }
+    }
+}
+```
+
+Every new payment type modifies `OrderService`.
+
+---
+
+### ✅ Better
+
+```java
+interface PaymentStrategy {
+    void pay();
+}
+```
+
+```text
+PaymentStrategy
+      │
+ ┌────┼────────┐
+ ↓    ↓        ↓
+UPI  Card    Wallet
+```
+
+Then:
+
+```java
+class OrderService {
+
+    private final PaymentStrategy payment;
+
+    OrderService(PaymentStrategy payment) {
+        this.payment = payment;
+    }
+
+    void checkout() {
+        payment.pay();
+    }
+}
+```
+
+Now:
+
+```text
+OrderService
+     ↓
+Interface
+     ↓
+Implementation
+```
+
+This gives:
+
+* lower coupling
+* easier testing
+* easier extension
+* polymorphism
+* dependency inversion
+
+---
+
+# 22. Interviewer's Follow-Up Chain
+
+### Interviewer
+
+**Q:** What is polymorphism?
+
+**You:**
+
+> Polymorphism allows the same interface or reference to represent different concrete implementations.
+
+---
+
+**Interviewer:** Why is that useful?
+
+> It reduces coupling because client code can depend on an abstraction rather than a specific implementation.
+
+---
+
+**Interviewer:** How does runtime polymorphism work?
+
+> For overridden instance methods, Java uses dynamic method dispatch so the implementation associated with the runtime object is selected.
+
+---
+
+**Interviewer:** What happens here?
+
+```java
+Animal a = new Dog();
+a.sound();
+```
+
+> The compiler validates `sound()` against `Animal`, while at runtime the overridden `Dog.sound()` implementation is selected.
+
+---
+
+**Interviewer:** Can static methods participate in this?
+
+> Static methods are class-level and are hidden rather than overridden.
+
+---
+
+**Interviewer:** Why?
+
+> Because static method selection is associated with the class/reference context rather than runtime object dispatch.
+
+---
+
+**Interviewer:** Where would you use this in production?
+
+> For example, a payment service can depend on a `PaymentStrategy` interface while UPI, Card, and Wallet provide different implementations.
+
+That is the **depth expected from an advanced candidate**.
+
+---
+
+# 23. Common Candidate Mistakes
+
+| Wrong Statement                        | Correct Understanding                                                 |
+| -------------------------------------- | --------------------------------------------------------------------- |
+| Static methods are overridden          | They are hidden                                                       |
+| Private methods are overridden         | They are not inherited/overridden                                     |
+| Return type can distinguish overloads  | Parameter list must differ                                            |
+| Same hash code means objects are equal | Equal objects must have same hash code                                |
+| `==` compares object content           | It compares references for objects                                    |
+| Constructors are inherited             | They are not                                                          |
+| Constructors can be overridden         | They cannot                                                           |
+| Inheritance is always better for reuse | Composition is often preferable                                       |
+| Interface has no implementation        | Modern Java interfaces can have default/static/private methods        |
+| Runtime polymorphism applies to fields | Fields are resolved differently; field access is not virtual dispatch |
+
+---
+
+# 24. ⭐ 30-Second Revision
+
+```text
+OOP
+│
+├── Encapsulation → protect state
+├── Abstraction → hide implementation
+├── Inheritance → IS-A
+├── Polymorphism → one abstraction, many implementations
+│
+├── Overloading → compile time
+└── Overriding → runtime
+```
+
+Advanced:
+
+```text
+==              → identity
+equals()        → logical equality
+hashCode()      → hashing contract
+
+static          → hidden
+final           → cannot override
+private         → not overridden
+
+Composition     → HAS-A
+Inheritance     → IS-A
+
+Upcasting       → Child → Parent
+Downcasting     → Parent → Child
+
+Abstract class  → shared state/implementation
+Interface       → contract/capability
+
+SOLID
+  ↓
+Design Patterns
+  ↓
+Loose Coupling
+  ↓
+Production Architecture
+```
+
+---
+
+# 25. 2-Minute Interview Cheat Sheet
+
+If the interviewer says **"Explain OOP in Java"**, build your answer in this order:
+
+```text
+1. Definition
+      ↓
+2. Four pillars
+      ↓
+3. Encapsulation
+      ↓
+4. Abstraction
+      ↓
+5. Inheritance
+      ↓
+6. Polymorphism
+      ↓
+7. Overloading vs overriding
+      ↓
+8. Composition vs inheritance
+      ↓
+9. Interface vs abstract class
+      ↓
+10. equals + hashCode
+      ↓
+11. Immutability
+      ↓
+12. SOLID
+      ↓
+13. Production example
+```
+
+**Do not dump all 13 points unless asked.** In an actual interview, answer the question first, then let the interviewer drill down.
+
+---
+
+# 26. Master Interview Test — No Answers
+
+### Basic
+
+1. What are the four pillars of OOP?
+2. What is the difference between a class and an object?
+3. What is encapsulation?
+4. What is abstraction?
+5. What is polymorphism?
+
+### Intermediate
+
+6. Overloading vs overriding?
+7. Why can't static methods be overridden?
+8. Abstract class vs interface?
+9. Composition vs inheritance?
+10. What is dynamic method dispatch?
+
+### Advanced
+
+11. Explain:
+
+```java
+Parent p = new Child();
+p.show();
+```
+
+How does Java determine which `show()` executes?
+
+12. Why are fields not polymorphic like overridden methods?
+
+13. Explain the `equals()` / `hashCode()` contract.
+
+14. How would you design a truly immutable Java class containing a `List`?
+
+15. Why is composition often preferred over inheritance?
+
+### Expert / Trap
+
+16. What happens if a subclass defines a static method with the same signature as its parent?
+
+17. Can a private method be overridden? Why?
+
+18. Can a final method be overloaded?
+
+19. Explain covariant return types.
+
+20. **Design a payment system supporting UPI, Card, Wallet, and future payment methods without repeatedly modifying the core `OrderService`. Which OOP principles and design patterns would you use, and why?**
